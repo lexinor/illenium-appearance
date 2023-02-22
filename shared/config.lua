@@ -12,12 +12,12 @@ Config.ChargePerTattoo = true -- Charge players per tattoo. Config.TattooCost wi
 -- Only set this to true if you're using rcore_tattoos
 Config.RCoreTattoosCompatibility = false
 
-Config.AsynchronousLoading = false -- Change this to false if you want the NUI data to load before displaying the appearance UI
+Config.AsynchronousLoading = true -- Change this to false if you want the NUI data to load before displaying the appearance UI
 
 Config.UseTarget = false
 
 Config.TextUIOptions = {
-    position = "left-center"
+    position = "right-center"
 }
 
 Config.NotifyOptions = {
@@ -33,7 +33,7 @@ Config.EnablePedsForClothingRooms = true
 Config.EnablePedsForPlayerOutfitRooms = true
 
 Config.EnablePedMenu = true
-Config.PedMenuGroup = "group.admin"
+Config.PedMenuGroup = "group.superadmin"
 
 Config.ShowNearestShopOnly = false
 Config.HideRadar = false -- Hides the minimap while the appearance menu is open
@@ -44,7 +44,7 @@ Config.InvincibleDuringCustomization = true
 Config.PreventTrackerRemoval = true -- Disables "Scarf and Chains" section if the player has tracker
 
 Config.NewCharacterSections = {
-    Ped = true,
+    Ped = false,
     HeadBlend = true,
     FaceFeatures = true,
     HeadOverlays = true,
@@ -75,7 +75,7 @@ Config.DisableComponents = {
     Masks = false,
     UpperBody = false,
     LowerBody = false,
-    Bags = false,
+    Bags = true,
     Shoes = false,
     ScarfAndChains = false,
     BodyArmor = false,
@@ -98,28 +98,28 @@ Config.Blips = {
         Sprite = 366,
         Color = 47,
         Scale = 0.7,
-        Name = "Clothing Store",
+        Name = "Magasin de vêtements",
     },
     ["barber"] = {
         Show = true,
         Sprite = 71,
         Color = 0,
         Scale = 0.7,
-        Name = "Barber",
+        Name = "Barbier",
     },
     ["tattoo"] = {
         Show = true,
         Sprite = 75,
         Color = 4,
         Scale = 0.7,
-        Name = "Tattoo Shop",
+        Name = "Salon de tatouages",
     },
     ["surgeon"] = {
-        Show = true,
+        Show = false,
         Sprite = 102,
         Color = 4,
         Scale = 0.7,
-        Name = "Plastic Surgeon",
+        Name = "Chirurgien",
     }
 }
 
