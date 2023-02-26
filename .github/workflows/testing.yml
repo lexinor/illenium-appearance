@@ -7,7 +7,7 @@ on:
       - "develop"
 jobs:
   release:
-    name: Create a new Release
+    name: Create a new Pre release
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -30,6 +30,7 @@ jobs:
     - uses: marvinpinto/action-automatic-releases@v1.2.1
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
+        automatic_release_tag: "latest"
         files: ${{ github.event.repository.name }}.zip
         title: ${{ steps.vars.outputs.tag }}
         prerelease: true
