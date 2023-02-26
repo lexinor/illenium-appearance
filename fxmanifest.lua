@@ -8,6 +8,8 @@ version "main"
 
 lua54 "yes"
 
+provides { "esx_skin", "skinchanger" }
+
 client_scripts {
   "game/constants.lua",
   "game/util.lua",
