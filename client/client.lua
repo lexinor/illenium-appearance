@@ -56,7 +56,9 @@ end
 
 local function RemoveZones()
     for i = 1, #Zones.Store do
-        Zones.Store[i]:remove()
+        if Zones.Store[i]["remove"] then
+            Zones.Store[i]:remove()
+        end
     end
     for i = 1, #Zones.ClothingRoom do
         Zones.ClothingRoom[i]:remove()
@@ -568,7 +570,7 @@ RegisterNetEvent("illenium-appearance:client:OutfitManagementMenu", function(arg
         options = {
             {
                 title = _L("outfits.change.title"),
-                description = string.format(_L("outfits.manage.description"), args.type),
+                description = string.format(_L("outfits.change.description"), args.type),
                 menu = changeManagementOutfitMenuID,
             },
             {
@@ -1085,7 +1087,7 @@ end
 
 local function SetupZone(store, onEnter, onExit)
     if Config.RCoreTattoosCompatibility and store.type == "tattoo" then
-        return
+        return {}
     end
 
     if Config.UseRadialMenu or store.usePoly then
