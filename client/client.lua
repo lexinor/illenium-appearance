@@ -1,7 +1,7 @@
 local client = client
 
 local currentZone = nil
-local MenuItemId = nil
+local radialOptionAdded = false
 
 local ManagementItemIDs = {
     Gang = nil,
@@ -150,9 +150,13 @@ local function AddManagementMenuItems()
 end
 
 local function RemoveRadialMenuOption()
-    if MenuItemId then
-        exports["qb-radialmenu"]:RemoveOption(MenuItemId)
-        MenuItemId = nil
+    if radialOptionAdded then
+        if Config.UseOxRadial then
+            lib.removeRadialItem("open_clothing_menu")
+        else
+            exports["qb-radialmenu"]:RemoveOption("open_clothing_menu")
+        end
+        radialOptionAdded = false
     end
 end
 
@@ -188,8 +192,12 @@ AddEventHandler("onResourceStop", function(resource)
         else
             RemoveZones()
         end
-        if Config.UseRadialMenu and GetResourceState("qb-radialmenu") == "started" then
-            RemoveRadialMenuOption()
+        if Config.UseRadialMenu then
+            if Config.UseOxRadial and GetResourceState('ox_lib') == "started" then
+                RemoveRadialMenuOption()
+            elseif GetResourceState("qb-radialmenu") == "started" then
+                RemoveRadialMenuOption()
+            end
         end
         if Config.BossManagedOutfits and GetResourceState("qb-management") == "started" then
             RemoveManagementMenuItems()
@@ -800,7 +808,7 @@ RegisterNetEvent("illenium-appearance:client:changeOutfit", function(data)
             else
                 lib.notify({
                     title = _L("outfits.change.failure.title"),
-                    description = _L("ouftis.change.failure.description"),
+                    description = _L("outfits.change.failure.description"),
                     type = "error",
                     position = Config.NotifyOptions.position
                 })
@@ -843,7 +851,7 @@ RegisterNetEvent("illenium-appearance:client:deleteOutfit", function(id)
     TriggerServerEvent("illenium-appearance:server:deleteOutfit", id)
     lib.notify({
         title = _L("outfits.delete.success.title"),
-        description = _L("ouftis.delete.success.failure"),
+        description = _L("outfits.delete.success.failure"),
         type = "success",
         position = Config.NotifyOptions.position
     })
@@ -905,7 +913,8 @@ RegisterNetEvent("illenium-appearance:client:ClearStuckProps", function()
     end
 end)
 
-RegisterNetEvent("qb-radialmenu:client:onRadialmenuOpen", function()
+local function AddRadialMenuOption()
+    if not Config.UseRadialMenu then return end
     if not currentZone then
         RemoveRadialMenuOption()
         return
@@ -930,16 +939,28 @@ RegisterNetEvent("qb-radialmenu:client:onRadialmenuOpen", function()
         event = "illenium-appearance:client:OpenSurgeonShop"
         title = _L("menu.surgeonShopTitle")
     end
-
-    MenuItemId = exports["qb-radialmenu"]:AddOption({
-        id = "open_clothing_menu",
-        title = title,
-        icon = "shirt",
-        type = "client",
-        event = event,
-        shouldClose = true
-    }, MenuItemId)
-end)
+    if Config.UseOxRadial then
+        lib.addRadialItem({
+            id = "open_clothing_menu",
+            icon = "shirt",
+            label = title,
+            event = event,
+            onSelect = function()
+                TriggerEvent(event)
+            end
+        })
+    else
+        exports["qb-radialmenu"]:AddOption({
+            id = "open_clothing_menu",
+            title = title,
+            icon = "shirt",
+            type = "client",
+            event = event,
+            shouldClose = true
+        }, "open_clothing_menu")
+    end
+    radialOptionAdded = true
+end
 
 local function isPlayerAllowedForOutfitRoom(outfitRoom)
     local isAllowed = false
@@ -956,7 +977,7 @@ end
 local function OpenOutfitRoom(outfitRoom)
     local isAllowed = isPlayerAllowedForOutfitRoom(outfitRoom)
     if isAllowed then
-        TriggerEvent("qb-clothing:client:openOutfitMenu")
+        OpenMenu(nil, "outfit")
     end
 end
 
@@ -1037,6 +1058,7 @@ local function onStoreEnter(data)
         elseif currentZone.name == "surgeon" then
             lib.showTextUI(prefix .. string.format(_L("textUI.surgeon"), Config.SurgeonCost), Config.TextUIOptions)
         end
+        AddRadialMenuOption()
     end
 end
 
@@ -1053,6 +1075,7 @@ local function onClothingRoomEnter(data)
             }
             local prefix = Config.UseRadialMenu and "" or "[E] "
             lib.showTextUI(prefix .. _L("textUI.clothingRoom"), Config.TextUIOptions)
+            AddRadialMenuOption()
         end
     end
 end
@@ -1069,11 +1092,13 @@ local function onPlayerOutfitRoomEnter(data)
         }
         local prefix = Config.UseRadialMenu and "" or "[E] "
         lib.showTextUI(prefix .. _L("textUI.playerOutfitRoom"), Config.TextUIOptions)
+        AddRadialMenuOption()
     end
 end
 
 local function onZoneExit()
     currentZone = nil
+    RemoveRadialMenuOption()
     lib.hideTextUI()
 end
 
@@ -1242,7 +1267,7 @@ local function SetupPlayerOutfitRoomTargets()
 
         if Config.EnablePedsForPlayerOutfitRooms then
             TargetPeds.PlayerOutfitRoom[k] = CreatePedAtCoords(v.targetModel or targetConfig.model, v.coords, v.targetScenario or targetConfig.scenario)
-            Target.AddTargetEntity(TargetPeds.ClothingRoom[k], parameters)
+            Target.AddTargetEntity(TargetPeds.PlayerOutfitRoom[k], parameters)
         else
             Target.AddBoxZone("playeroutfitroom_" .. k, v.coords, v.size, parameters)
         end
