@@ -73,7 +73,7 @@ Config.ACEResetCooldown = 5000
 Config.ACEListCooldown = 60 * 60 * 1000 -- 1 Hour
 
 Config.DisableComponents = {
-    Masks = false,
+    Masks = true,
     UpperBody = false,
     LowerBody = false,
     Bags = true,
@@ -344,7 +344,7 @@ Config.Stores = {
     },
     {
         type = "clothing",
-        coords = vector4(-1119.24, -1440.6, 5.23, 300.5),
+        coords = vector4(-1122.7804, -1442.5061, 5.2283, 213.8226),
         size = vector3(4, 4, 4),
         rotation = 45,
         usePoly = false,
@@ -576,7 +576,7 @@ Config.ClothingRooms = {
 
 Config.PlayerOutfitRooms = {
     -- Sample outfit room config
---[[    {
+    --[[{
         job = "police",
         coords = vector4(287.28, -573.41, 43.16, 79.61),
         size = vector3(4, 4, 4),
