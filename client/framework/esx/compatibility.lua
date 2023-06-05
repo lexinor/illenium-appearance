@@ -10,6 +10,7 @@ end)
 AddEventHandler("esx_skin:playerRegistered", function()
     if(firstSpawn) then
         InitializeCharacter(Framework.GetGender(true))
+	TriggerServerEvent("lexinor_id:GenerateCard", "idcard", true)
     end
 end)
 
