@@ -197,6 +197,8 @@ RegisterNetEvent("illenium-appearance:server:saveOutfit", function(name, model, 
         getOutfitsForPlayer(citizenID)
     end
     if model and components and props then
+        TriggerClientEvent("illenium-appearance:forceInv", source, components)
+        
         local id = Database.PlayerOutfits.Add(citizenID, name, model, json.encode(components), json.encode(props))
         if not id then
             return

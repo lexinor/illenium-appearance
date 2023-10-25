@@ -79,10 +79,10 @@ Config.ACEResetCooldown = 5000
 Config.ACEListCooldown = 60 * 60 * 1000 -- 1 Hour
 
 Config.DisableComponents = {
-    Masks = true,
+    Masks = false,
     UpperBody = false,
     LowerBody = false,
-    Bags = true,
+    Bags = false,
     Shoes = false,
     ScarfAndChains = false,
     BodyArmor = false,

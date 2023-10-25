@@ -640,6 +640,9 @@ RegisterNetEvent("illenium-appearance:client:OpenSurgeonShop", OpenSurgeonShop)
 RegisterNetEvent("illenium-appearance:client:changeOutfit", function(data)
     local pedModel = client.getPedModel(cache.ped)
     local appearanceDB
+
+    TriggerEvent("illenium-appearance:forceInv", data.components)
+
     if pedModel ~= data.model then
         local p = promise.new()
         lib.callback("illenium-appearance:server:getAppearance", false, function(appearance)
@@ -752,5 +755,17 @@ RegisterNetEvent("illenium-appearance:client:ClearStuckProps", function()
         DeleteObject(v)
         DeleteEntity(v)
       end
+    end
+end)
+
+RegisterNetEvent("illenium-appearance:forceInv", function (components)
+    for _, item in ipairs(components) do
+        if item.component_id == 5 then
+            if item.drawable ~= 0 then
+                TriggerServerEvent("lexinor_commons:SetBagMaxWeight", true)
+            else
+                TriggerServerEvent("lexinor_commons:SetBagMaxWeight", false)
+            end
+        end
     end
 end)
