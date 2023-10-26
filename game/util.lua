@@ -391,7 +391,7 @@ end)
 
 lib.callback.register('illenium-appearance:SetCurrentPlayerAppearance', function(appearance)
     if not appearance or type(appearance) ~= "table" then return false end
-    client.setPedAppearance(cache.ped, appearance)
+    client.setPlayerAppearance(appearance)
     return true
 end)
 
