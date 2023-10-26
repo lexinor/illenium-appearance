@@ -64,6 +64,7 @@ server_scripts {
 }
 
 shared_scripts {
+  "@ox_lib/init.lua"
   "shared/config.lua",
   "shared/blacklist.lua",
   "shared/peds.lua",
@@ -82,8 +83,7 @@ shared_scripts {
   "locales/it.lua",
   "locales/nl.lua",
   "locales/pt-BR.lua",
-  "locales/ro-RO.lua",
-  "@ox_lib/init.lua"
+  "locales/ro-RO.lua",  
 }
 
 files {

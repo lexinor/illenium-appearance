@@ -385,6 +385,15 @@ local function setPlayerAppearance(appearance)
     end
 end
 
+lib.callback.register('illenium-appearance:GetCurrentPlayerAppearance', function()
+    return client.getPedAppearance(cache.ped)
+end)
+
+lib.callback.register('illenium-appearance:SetCurrentPlayerAppearance', function(ped, appearance)
+    if not appearance or type(appearance) ~= "table" then return false end
+    client.setPedAppearance(cache.ped, appearance)
+end)
+
 exports("getPedModel", getPedModel)
 exports("getPedComponents", getPedComponents)
 exports("getPedProps", getPedProps)
