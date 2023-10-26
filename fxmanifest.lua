@@ -64,7 +64,7 @@ server_scripts {
 }
 
 shared_scripts {
-  "@ox_lib/init.lua"
+  "@ox_lib/init.lua",
   "shared/config.lua",
   "shared/blacklist.lua",
   "shared/peds.lua",
